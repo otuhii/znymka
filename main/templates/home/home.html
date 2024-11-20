@@ -1,0 +1,36 @@
+{%extends 'layout.html'%}
+{%load static%}
+
+
+{%block content%}
+    <header class="header" style="justify-content: space-between; margin-bottom: 50px;">
+        <p class="button" onclick="window.location.href=''">100 друзів</p>
+        <p class="button" onclick="window.location.href=''">Профіль</p>
+    </header>
+    <main class="main">
+        <p class="logo" style="margin-bottom: 20px;">Публікації друзів</p>
+        <div class="posts-cont">
+            <div class="post">
+                <img src="{%static 'photos/1.jpg'%}"class="post-image">
+                <div class="post-description">
+                    <p class="post-username">@baran</p>
+                    <p class="post-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas consequuntur suscipit ducimus ab tempora laboriosam.</p>
+                </div>
+            </div>
+            <div class="post">
+                <img src="{%static 'photos/2.jpg'%}"class="post-image">
+                <div class="post-description">
+                    <p class="post-username">@pes</p>
+                    <p class="post-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas consequuntur suscipit ducimus ab tempora laboriosam.</p>
+                </div>
+            </div>
+            <div class="post">
+                <img src="{%static 'photos/3.jpg'%}"class="post-image">
+                <div class="post-description">
+                    <p class="post-username">@ishak</p>
+                    <p class="post-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas consequuntur suscipit ducimus ab tempora laboriosam.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+{%endblock%}
