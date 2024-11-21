@@ -6,9 +6,15 @@
 </header>
 <main class="main">
     <p class="logo" style="margin-bottom: 100px;">Вхід</p>
-    <form action="" class="form">
-        <input type="text" placeholder="Ваш номер телефону" class="input">
-        <input type="submit" value="Надіслати код" class="input-submit">
+    <form action="{%url 'loginView' %}" method="post" class="form">
+        {%csrf_token%}
+        <input type="text" name="username" class="input" placeholder="Ваше ім'я">
+        <input type="password" name="password" class="input" placeholder="Ваш пароль">
+        <input type="submit" value="Продовжити" class="input-submit">
+        <!--<input type="text" placeholder="Ваш номер телефону" class="input" name="phoneNum">
+        TO DO: заєбашити двухфакторне підтвердження номером телефону 
+        або якщо це буде легше - зробити через пошту
+        -->
     </form>
 </main>
 {%endblock%}
