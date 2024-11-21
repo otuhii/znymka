@@ -180,3 +180,18 @@ body {
 
 
 
+/* Кнопка зарейструватись на логіні*/
+.signup-link {
+    text-decoration: none;
+    color: #000000;
+    margin-left: 2%;
+    font-family: 'e-uk-h-r';
+}
+
+
+
+
+
+.signup-form-headers{
+    font-family: 'e-uk-h-r';
+}

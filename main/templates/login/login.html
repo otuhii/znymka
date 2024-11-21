@@ -1,4 +1,6 @@
 {%extends 'layout.html'%}
+{%load static%}
+
 
 {%block content%}
 <header class="header" style="justify-content: flex-start;">
@@ -11,6 +13,7 @@
         <input type="text" name="username" class="input" placeholder="Ваше ім'я">
         <input type="password" name="password" class="input" placeholder="Ваш пароль">
         <input type="submit" value="Продовжити" class="input-submit">
+        <a href="{%url 'signupView'%}" class="signup-link">Зареєструватись</a>
         <!--<input type="text" placeholder="Ваш номер телефону" class="input" name="phoneNum">
         TO DO: заєбашити двухфакторне підтвердження номером телефону 
         або якщо це буде легше - зробити через пошту
