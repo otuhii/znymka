@@ -1,4 +1,6 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
+
 
 from . import views
 
@@ -7,11 +9,10 @@ urlpatterns = [
     path("home/", views.homepageView, name="homepageView"),
     path("login/", views.loginView, name="loginView"),
     path("help/", views.helpPage, name="helpPage"),
-    path("logout/", views.logout_view, name="logout_view"),
-    #path('profile/<str:username>/', views.view_profile, name='view_profile'),
-    #path("uploadPhoto/<str:username>/", views.uploadphoto, name="uploadPhoto"),
-    
-    
-    
     path("signup/", views.signupView, name="signupView"),
+    path("logout/", views.logoutView, name="logoutView"),
+    path('<str:username>/', views.viewProfile, name='viewProfile'),
+    #path("uploadPhoto/<str:username>/", views.uploadphoto, name="uploadPhoto"),
+    path('<str:username>/friends', views.friends, name="usersFriends"),
+
 ]

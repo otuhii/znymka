@@ -1,0 +1,15 @@
+{%extends 'layout.html'%}
+{%load static%}
+
+{%block content%}
+    <main class="main">
+        {%if isOwn%}
+            <p style="margin-bottom: 40px;">Ваш профіль</p>
+            <a class="button" href="{%url 'logoutView'%}">Вийти з профілю</a>
+        {%else%}
+            <p>Профіль{{profile.username}}</p>
+        {%endif%}
+    </main>
+
+
+{%endblock%}
