@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import UserCreationForm
-
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -18,11 +18,6 @@ def homepageView(request):
 
 def helpPage(request):
     return render(request, "help.html")
-
-def logout_view(request):
-    logout(request)
-    return redirect("indexPage")
-
 
 #AUTHENTICATION
 @csrf_exempt    
@@ -40,6 +35,7 @@ def loginView(request):
 
     return render(request, 'login/login.html')
 
+@csrf_exempt
 def signupView(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
@@ -50,10 +46,14 @@ def signupView(request):
         form = UserCreationForm()
 
     return render(request, 'signup/signup.html', {
-        'form': form
+        'form': form #Поміняти цю форму
         })
 
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect("indexPage")
+
+###################################################
 
 
-
-#############################################

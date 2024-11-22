@@ -1,6 +1,5 @@
 {%extends 'layout.html'%}
 {%load static%}
-<!--Тут хуйню ту всю нормально розташувати і взагалі треба ше заредачити форму яку я сюди передаю-->
 
 {%block css%}
 <link rel="stylesheet" href="{%static 'styles/signup/style.css'%}">
@@ -8,37 +7,40 @@
 
 
 {%block content%}
+<header class="header" style="justify-content: flex-start;">
+    <a class="button"  style="text-decoration: none;" href="javascript:window.history.back();">Назад</a>
+</header>
 
-<a class="button" style="text-decoration: none; width: 10%;" href="javascript:window.history.back();">Назад</a>
+<main class="main">
+    <form method="POST" class="user-registration-form">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label class="signup-form-headers" for="{{ form.username.id_for_label }}">Ім'я</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+                <span class="error">{{ form.username.errors }}</span>
+            {% endif %}
+        </div>
 
-<form method="POST" class="user-registration-form">
-    {% csrf_token %}
-    
-    <div class="form-group">
-        <label class="signup-form-headers" for="{{ form.username.id_for_label }}">Ім'я</label>
-        {{ form.username }}
-        {% if form.username.errors %}
-            <span class="error">{{ form.username.errors }}</span>
-        {% endif %}
-    </div>
+        <div class="form-group">
+            <label class="signup-form-headers" for="{{ form.password1.id_for_label }}">Пароль</label>
+            {{ form.password1 }}
+            {% if form.password1.errors %}
+                <span class="error">{{ form.password1.errors }}</span>
+            {% endif %}
+        </div>
 
-    <div class="form-group">
-        <label class="signup-form-headers" for="{{ form.password1.id_for_label }}">Пароль</label>
-        {{ form.password1 }}
-        {% if form.password1.errors %}
-            <span class="error">{{ form.password1.errors }}</span>
-        {% endif %}
-    </div>
-
-    <div class="form-group">
-        <label class="signup-form-headers" for="{{ form.password2.id_for_label }}">Підтвердження паролю</label>
-        {{ form.password2 }}
-        {% if form.password2.errors %}
-            <span class="error">{{ form.password2.errors }}</span>
-        {% endif %}
-    </div>
-    <!--TO DO: додати перервірку коректності електронної адреси бо можуть неправильно ввести, кидати якийсь лист на пошту-->
-    <button class="button" type="submit">Продовжити</button>
-</form>
+        <div class="form-group">
+            <label class="signup-form-headers" for="{{ form.password2.id_for_label }}">Підтвердження паролю</label>
+            {{ form.password2 }}
+            {% if form.password2.errors %}
+                <span class="error">{{ form.password2.errors }}</span>
+            {% endif %}
+        </div>
+        <!--TO DO: додати перервірку коректності електронної адреси бо можуть неправильно ввести, кидати якийсь лист на пошту-->
+        <button class="button" type="submit">Продовжити</button>
+    </form>
+</main>
 
 {%endblock%}
