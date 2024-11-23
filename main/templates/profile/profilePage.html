@@ -2,14 +2,20 @@
 {%load static%}
 
 {%block content%}
-    <main class="main">
-        {%if isOwn%}
-            <p style="margin-bottom: 40px;">Ваш профіль</p>
-            <a class="button" href="{%url 'logoutView'%}">Вийти з профілю</a>
-        {%else%}
-            <p>Профіль{{profile.username}}</p>
-        {%endif%}
-    </main>
+
+
+<header class="header" style="justify-content: flex-start;">
+    <a class="button"  style="text-decoration: none;" href="javascript:window.history.back();">Назад</a>
+</header>
+
+<main class="main">
+    {%if isOwn%}
+        <p style="margin-bottom: 40px;">Ваш профіль</p>
+        <a class="button" href="{%url 'logoutView'%}">Вийти з профілю</a>
+    {%else%}
+        <p>Профіль{{profile.username}}</p>
+    {%endif%}
+</main>
 
 
 {%endblock%}

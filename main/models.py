@@ -29,6 +29,13 @@ class Profile(models.Model):
         related_name="friend_profiles"
     )
 
+    #перевірка на дружбу
+    def isFriend(self, username):
+        try:
+            user_to_check = User.objects.get(username=username)
+            return self.friends.filter(user=user_to_check).exists()
+        except User.DoesNotExist:
+            return False
 
 
 class ProfilePhoto(models.Model):
