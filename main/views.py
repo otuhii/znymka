@@ -110,7 +110,7 @@ def friends(request, username):
     if is_own_profile:
         return render(request, "friendsPage/page.html", {
             "profile": request.user.profile,
-            "friends_list": friendsList,  
+            "friendsList": friendsList,  
             "recommendedProfiles": recommendedProfiles,
         })
 

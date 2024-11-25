@@ -13,14 +13,14 @@
     {%if friendsList.exists %}
         <p>Друзі {{profile.username}}:</p>
         {%for f in friendsList%}
-            <p>Ім'я: {{f.username}}</p>
-            <a href="{%url 'viewProfile' username=f.username%}">Подивитись профіль</a>
+            <p>Ім'я: {{f.user.username}}</p>
+            <a href="{%url 'viewProfile' username=f.user.username%}">Подивитись профіль</a>
         {%endfor%}
     {%else%}
         <p>Схоже у вас немає друзів, але ви можете додати когось):</p>
         {%for r in recommendedProfiles%}
-            <p>Iм'я {{r.username}}</p>
-            <a href="{%url 'addFriend' username=r.username%}">Додати друга</a>
+            <p>Iм'я {{r.user.username}}</p>
+            <a href="{%url 'addFriend' username=r.user.username%}">Додати друга</a>
         {%endfor%}
     {%endif%}
 </main>
