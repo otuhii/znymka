@@ -5,7 +5,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.urls import reverse
 
+
+from .models import ProfilePhoto
 
 def indexPage(request):
     if request.user.is_authenticated:
@@ -85,10 +88,12 @@ def logoutView(request):
 def viewProfile(request, username):
     user_profile = get_object_or_404(User, username=username).profile
     is_own_profile = request.user.username == username
+    photos = user_profile.get_recent_photos('any')
 
-    return render(request, "profile/profilePage.html",{
+    return render(request, "home/profile/profilePage.html",{
         "profile" : user_profile,
-        "isOwn" : is_own_profile
+        "isOwn" : is_own_profile,
+        "photos" : photos,
     })
 
 
@@ -108,14 +113,14 @@ def friends(request, username):
     #потім можна додати якийсь пошук за дейксрою або можливо по номеру телефону шукати
 
     if is_own_profile:
-        return render(request, "friendsPage/page.html", {
+        return render(request, "home/friendsPage/page.html", {
             "profile": request.user.profile,
             "friendsList": friendsList,  
             "recommendedProfiles": recommendedProfiles,
         })
 
 
-    return render(request, "help.html")
+    
 
 
 
@@ -138,3 +143,16 @@ def addFriend(request, username):
         messages.error(request, 'Користувача не знайдено')
         return redirect('usersFriends', username=request.user.username)
     
+
+
+@csrf_exempt
+@login_required
+def uploadPhoto(request, username):
+    if request.method == "POST":
+        new_photo = ProfilePhoto.objects.create(
+            profile=request.user.profile,
+            image=request.FILES['photo'],
+            photo_type=request.POST.get('photo_type', 'GALLERY'),
+            caption=request.POST.get('caption', '')
+        )
+        return redirect(reverse('viewProfile', kwargs={'username': request.user.username}))

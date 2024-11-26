@@ -1,2 +1,6 @@
 libs
 test.py
+todo.txt
+main/__pycache__
+media
+migrations

@@ -6,9 +6,6 @@
     <a class="button"  style="text-decoration: none;" href="javascript:window.history.back();">Назад</a>
 </header>
 
-<!--   ЗАФІКСИТИ ТУТ ХУЙНЮ ЩО ЗАВЖДИ ПОКАЗУЄТЬСЯ ТІЛЬКИ else НЕ ЗАЛЕЖНО ВІД ТОГО ЧИ Є ДРУЗІ ЧИ НЕМА    -->
-
-
 <main class="main">
     {%if friendsList.exists %}
         <p>Друзі {{profile.username}}:</p>
@@ -18,10 +15,12 @@
         {%endfor%}
     {%else%}
         <p>Схоже у вас немає друзів, але ви можете додати когось):</p>
-        {%for r in recommendedProfiles%}
-            <p>Iм'я {{r.user.username}}</p>
-            <a href="{%url 'addFriend' username=r.user.username%}">Додати друга</a>
-        {%endfor%}
+        {% if recommendedProfiles.exists %}
+            {%for r in recommendedProfiles%}
+                <p>Iм'я {{r.user.username}}</p>
+                <a href="{%url 'addFriend' username=r.user.username%}">Додати друга</a>
+            {%endfor%}
+        {%endif%}
     {%endif%}
 </main>
 
