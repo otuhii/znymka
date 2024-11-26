@@ -38,7 +38,8 @@ class Profile(models.Model):
             return False
         
 
-
+    #метод для отримання фото даного профілю за якийсь період часу,
+    #якщо any то буде без фільтру по часу
     def get_recent_photos(self, days=1):
         
         if days=='any':

@@ -90,7 +90,7 @@ def viewProfile(request, username):
     is_own_profile = request.user.username == username
     photos = user_profile.get_recent_photos('any')
 
-    return render(request, "profile/profilePage.html",{
+    return render(request, "home/profile/profilePage.html",{
         "profile" : user_profile,
         "isOwn" : is_own_profile,
         "photos" : photos,
@@ -113,7 +113,7 @@ def friends(request, username):
     #потім можна додати якийсь пошук за дейксрою або можливо по номеру телефону шукати
 
     if is_own_profile:
-        return render(request, "friendsPage/page.html", {
+        return render(request, "home/friendsPage/page.html", {
             "profile": request.user.profile,
             "friendsList": friendsList,  
             "recommendedProfiles": recommendedProfiles,
