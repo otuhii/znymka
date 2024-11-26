@@ -12,8 +12,9 @@ urlpatterns = [
     path("signup/", views.signupView, name="signupView"),
     path("logout/", views.logoutView, name="logoutView"),
     path('<str:username>/', views.viewProfile, name='viewProfile'),
-    #path("uploadPhoto/<str:username>/", views.uploadphoto, name="uploadPhoto"),
     path('<str:username>/friends', views.friends, name="usersFriends"),
-    path('<str:username>/addFriend', views.addFriend, name="addFriend")
+    path('<str:username>/addfriend', views.addFriend, name="addFriend"),
+    path("<str:username>/uploadphoto", views.uploadPhoto, name="uploadPhoto"),
+
 
 ]

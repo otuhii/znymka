@@ -12,10 +12,39 @@
     {%if isOwn%}
         <p style="margin-bottom: 40px;">Ваш профіль</p>
         <a class="button" href="{%url 'logoutView'%}">Вийти з профілю</a>
+
+        {% if photos.exists %}
+            {%for p in photos%}
+            <!--ЄБАНУТИ ЦЕ У ВИГЛЯДІ СПИСКУ І ЗРОБИТИ ГРІД НОРМАЛЬНИЙ-->
+                <img src="{{p.image.url}}" alt="Фото користувача">
+            {%endfor%}
+        {%endif%}
+
+
+        <!--ЗРОБИТИ ОКРЕМУ МЕНЮШКУ ДЛЯ ДОДАВАННЯ ФОТО-->
+        <form action="{%url 'uploadPhoto' username=profile.user.username%}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="photo" accept="image/*">
+            <label for="photo">Виберіть фото</label>
+            <input type="submit" value="Upload">
+        </form>
+
+
+        
     {%else%}
-        <p>Профіль{{profile.username}}</p>
+        <p>Профіль {{profile.user.username}}</p>
+
+        {% if photos.exists %}
+            {%for p in photos%}
+                <img src="{{p.image.url}}" alt="Фото користувача">
+            {%endfor%}
+        {%endif%}
+
     {%endif%}
 </main>
+
+
+
 
 
 {%endblock%}

@@ -4,7 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-
+from datetime import timedelta
 
 def validate_file_size(value):
     filesize = value.size
@@ -36,6 +36,21 @@ class Profile(models.Model):
             return self.friends.filter(user=user_to_check).exists()
         except User.DoesNotExist:
             return False
+        
+
+
+    def get_recent_photos(self, days=1):
+        
+        if days=='any':
+            return self.photos.filter(
+                is_active=True
+            )
+        else:
+            recent_threshold = timezone.now() - timedelta(days=days)
+            return self.photos.filter(
+                upload_date__gte=recent_threshold,
+                is_active=True
+            )
 
 
 class ProfilePhoto(models.Model):
@@ -76,8 +91,6 @@ class ProfilePhoto(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-
-
 
 
 
