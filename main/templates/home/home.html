@@ -10,27 +10,26 @@
     <main class="main">
         <p class="logo" style="margin-bottom: 20px;">Публікації друзів</p>
         <div class="posts-cont">
-            <div class="post">
-                <img src="{%static 'photos/1.jpg'%}"class="post-image">
-                <div class="post-description">
-                    <p class="post-username">@baran</p>
-                    <p class="post-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas consequuntur suscipit ducimus ab tempora laboriosam.</p>
-                </div>
-            </div>
-            <div class="post">
-                <img src="{%static 'photos/2.jpg'%}"class="post-image">
-                <div class="post-description">
-                    <p class="post-username">@pes</p>
-                    <p class="post-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas consequuntur suscipit ducimus ab tempora laboriosam.</p>
-                </div>
-            </div>
-            <div class="post">
-                <img src="{%static 'photos/3.jpg'%}"class="post-image">
-                <div class="post-description">
-                    <p class="post-username">@ishak</p>
-                    <p class="post-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas consequuntur suscipit ducimus ab tempora laboriosam.</p>
-                </div>
-            </div>
+
+
+            <!--
+            {% for key, value in my_dict.items %}
+                {{ key }}: {{ value }}
+            {% endfor %}
+            -->
+
+
+            {%for name, photos in posts.items %}
+                {%for userPhotos in photos%}
+                    <div class="post">
+                        <img src="{{userPhotos.image.url}}"class="post-image">
+                        <div class="post-description">
+                            <p class="post-username">@{{name}}</p>
+                            <p class="post-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas consequuntur suscipit ducimus ab tempora laboriosam.</p>
+                        </div>
+                    </div>
+                {%endfor%}
+            {%endfor%}
         </div>
     </main>
 {%endblock%}

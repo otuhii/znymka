@@ -17,8 +17,8 @@
         <p>Схоже у вас немає друзів, але ви можете додати когось):</p>
         {% if recommendedProfiles.exists %}
             {%for r in recommendedProfiles%}
-                <p>Iм'я {{r.user.username}}</p>
-                <a href="{%url 'addFriend' username=r.user.username%}">Додати друга</a>
+                <p>Iм'я {{r.username}}</p>
+                <a href="{%url 'addFriend' username=r.username%}">Додати друга</a>
             {%endfor%}
         {%endif%}
     {%endif%}

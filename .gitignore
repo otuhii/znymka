@@ -4,3 +4,4 @@ todo.txt
 main/__pycache__
 media
 migrations
+db.sqlite3
