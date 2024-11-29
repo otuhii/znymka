@@ -42,7 +42,7 @@
     {%if isOwn%}
     <form class="upload-form" action="{%url 'uploadPhoto' username=profile.user.username%}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <input type="file" name="photo" accept="image/*">
+        <input type="file" name="photo" accept="image/*" required>
         <label for="photo">Виберіть фото</label>
         <input type="submit" value="Upload">
     </form>
