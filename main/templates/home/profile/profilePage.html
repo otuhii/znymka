@@ -27,7 +27,14 @@
     {% if photos.exists %}
     <div class="photo-grid">
         {%for p in photos%}
-            <img src="{{p.image.url}}" alt="Фото користувача">
+            <div class="post">
+                <img src="{{p.image.url}}" alt="Фото користувача">
+                {%if p.caption.exists%}
+                    <div class="post-description">
+                        <p class="post-text">{{p.caption}}</p>
+                    </div>
+                {%endif%}
+            </div>
         {%endfor%}
     </div>
     {%endif%}

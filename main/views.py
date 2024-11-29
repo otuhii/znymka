@@ -123,19 +123,22 @@ def viewProfile(request, username):
 def friends(request, username):
     is_own_profile = request.user.username == username
 
-    friendsList = request.user.profile.friends.all()
-
-
-    #Вилючаємо з цих профілів зареєстрованого користувача і його друзів і адмінський аккаунт
-    recommendedProfiles = User.objects.exclude(
-        Q(id__in=[request.user.id] + list(friendsList.values_list('user__id', flat=True))) |
-        Q(is_superuser=True)
-    )[:5]
-
-    #перші п'ять захаркоджених користувачів
-    #потім можна додати якийсь пошук за дейксрою або можливо по номеру телефону шукати
 
     if is_own_profile:
+        friendsList = request.user.profile.friends.all()
+
+
+        #Вилючаємо з цих профілів зареєстрованого користувача і його друзів і адмінський аккаунт
+        recommendedProfiles = User.objects.exclude(
+            Q(id__in=[request.user.id] + list(friendsList.values_list('user__id', flat=True))) |
+            Q(is_superuser=True)
+        )[:5]
+
+        #перші п'ять захаркоджених користувачів
+        #потім можна додати якийсь пошук за дейксрою(типу друзі друзів і тд)
+        #або можливо по номеру телефону шукати
+
+        
         return render(request, "home/friendsPage/page.html", {
             "profile": request.user.profile,
             "friendsList": friendsList,  
