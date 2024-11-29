@@ -5,10 +5,14 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.db.models import Q
 from django.urls import reverse
+from django.utils import timezone
+from datetime import timedelta
+from django.db import models
 
 
-from .models import ProfilePhoto
+from .models import ProfilePhoto, Profile
 
 def indexPage(request):
     if request.user.is_authenticated:
@@ -22,17 +26,33 @@ def homepageView(request):
     if not request.user.is_authenticated:
         return redirect('loginView')    
 
+    user = request.user
+    friends = user.profile.friends.all()
+    
 
-    '''
-    мені треба зробити функцію яка буде вибирати друзів користувача, брати всі їхні пости і вибирати тільки ті які виставили за останню добу, якщо таких нема - просто
-    не повертати нічого 
-    '''
+    #хароший ефективний спосіб(як мені сказали) отримувати зразу за один запит профілі друзів і їх недавні фото
+    recent_threshold = timezone.now() - timedelta(days=1)
+
+    friends_photos = Profile.objects.filter(
+        friends=user.profile
+    ).prefetch_related(
+        models.Prefetch(
+            'photos',
+            queryset=ProfilePhoto.objects.filter(
+                upload_date__gte=recent_threshold,
+                is_active=True
+            )
+        )
+    )
+
+    posts = {friend: friend.photos.all() for friend in friends_photos}
 
 
     return render(request, 'home/home.html', {
-        "user" : request.user,
-        "profile" : request.user.profile,
-        "friendsCount" : request.user.profile.friends.all().count(),
+        "user" : user,
+        "profile" : user.profile,
+        "friendsCount" : user.profile.friends.all().count(),
+        "posts" : posts,
     })
 
 def helpPage(request):
@@ -103,16 +123,22 @@ def viewProfile(request, username):
 def friends(request, username):
     is_own_profile = request.user.username == username
 
-    friendsList = request.user.profile.friends.all()
-
-
-    #Вилючаємо з цих профілів зареєстрованого користувача і його друзів
-    recommendedProfiles = User.objects.exclude(
-        id__in=[request.user.id] + list(friendsList.values_list('user__id', flat=True))
-    )[:5]#перші п'ять захаркоджених користувачів
-    #потім можна додати якийсь пошук за дейксрою або можливо по номеру телефону шукати
 
     if is_own_profile:
+        friendsList = request.user.profile.friends.all()
+
+
+        #Вилючаємо з цих профілів зареєстрованого користувача і його друзів і адмінський аккаунт
+        recommendedProfiles = User.objects.exclude(
+            Q(id__in=[request.user.id] + list(friendsList.values_list('user__id', flat=True))) |
+            Q(is_superuser=True)
+        )[:5]
+
+        #перші п'ять захаркоджених користувачів
+        #потім можна додати якийсь пошук за дейксрою(типу друзі друзів і тд)
+        #або можливо по номеру телефону шукати
+
+        
         return render(request, "home/friendsPage/page.html", {
             "profile": request.user.profile,
             "friendsList": friendsList,  

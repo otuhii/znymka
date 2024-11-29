@@ -6,3 +6,4 @@ media
 migrations
 todo.txt
 znymka/__pycache__
+db.sqlite3
