@@ -8,19 +8,20 @@
 
 <main class="main">
     {%if friendsList.exists %}
-        <p>Друзі {{profile.username}}:</p>
+        <p class="title">Друзі {{profile.user.username}}:</p>
         {%for f in friendsList%}
             <p>Ім'я: {{f.user.username}}</p>
             <a href="{%url 'viewProfile' username=f.user.username%}">Подивитись профіль</a>
         {%endfor%}
+        <p style="margin-top: 50px;" class="title">Люди, яких ви можете знати: </p>
     {%else%}
         <p>Схоже у вас немає друзів, але ви можете додати когось):</p>
-        {% if recommendedProfiles.exists %}
-            {%for r in recommendedProfiles%}
-                <p>Iм'я {{r.username}}</p>
-                <a href="{%url 'addFriend' username=r.username%}">Додати друга</a>
-            {%endfor%}
-        {%endif%}
+    {%endif%}
+    {% if recommendedProfiles.exists %}
+        {%for r in recommendedProfiles%}
+            <p>Iм'я {{r.username}}</p>
+            <a href="{%url 'addFriend' username=r.username%}">Додати друга</a>
+        {%endfor%}
     {%endif%}
 </main>
 
