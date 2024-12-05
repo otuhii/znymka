@@ -5,11 +5,22 @@ from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from datetime import timedelta
+from .googledrive import GoogleDriveStorage
+
+import os
 
 def validate_file_size(value):
     filesize = value.size
     if filesize > 10 * 1024 * 1024:  # 10MB
         raise ValidationError("Maximum file size is 10MB")
+
+
+class DrivePhotoField(models.CharField):
+    #field for storing id of photo on google drive 
+    def __init__(self, *args, **kwargs):
+        kwargs['max_length'] = 100  
+        super().__init__(*args, **kwargs)
+
 
 
 class Profile(models.Model):
@@ -54,6 +65,7 @@ class Profile(models.Model):
             )
 
 
+#so we just create photo locally, validate it and so and after that we senf it to server and delete locally
 class ProfilePhoto(models.Model):
     PHOTO_TYPES = [
         ('GALLERY', 'Gallery Photo'),
@@ -65,21 +77,31 @@ class ProfilePhoto(models.Model):
         on_delete=models.CASCADE,
         related_name='photos'
     )
-    image = models.ImageField(
+
+    image = DrivePhotoField(
+        null=True,
+        help_text="Айді для фото яке зберігається на гугл диску"
+    )
+
+    local_image = models.ImageField(
         upload_to='images/',
         validators=[validate_file_size],
-        help_text='Завантажте вашу фотографію(максимальний розмір 10МБ)'
+        help_text='Завантажте вашу фотографію(максимальний розмір 10МБ)',
+        null=True,
     )
+
     photo_type = models.CharField(
         max_length=10,
         choices=PHOTO_TYPES,
         default='GALLERY'
     )
+
     caption = models.CharField(
         max_length=200,
         blank=True,
         help_text='Додайте опис своїй фотографії'
     )
+
     is_active = models.BooleanField(default=True)
     upload_date = models.DateTimeField(auto_now_add=True)
     
@@ -91,7 +113,29 @@ class ProfilePhoto(models.Model):
         ]
 
     def save(self, *args, **kwargs):
+        if self.local_image and not self.drive_file_id:
+            drive_storage = GoogleDriveStorage()
+            file_id = drive_storage.upload_photo(
+                self.local_image.path,
+                f"photo_{self.profile.user.username}_{os.path.basename(self.local_image.name)}"
+            )
+            self.image = file_id
+            self.local_image.delete()
+
         super().save(*args, **kwargs)
+
+
+    def delete(self, *args, **kwargs):
+        if self.drive_file_id:
+            drive_storage = GoogleDriveStorage()
+            drive_storage.delete_photo(self.drive_file_id)
+        super().delete(*args, **kwargs)
+
+    def get_image_url(self):
+        if self.drive_file_id:
+            drive_storage = GoogleDriveStorage()
+            return drive_storage.get_photo(self.drive_file_id)
+        return None
 
 
 
