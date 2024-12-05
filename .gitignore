@@ -7,3 +7,4 @@ migrations
 todo.txt
 znymka/__pycache__
 db.sqlite3
+main/static/credentials.json
