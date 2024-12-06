@@ -11,6 +11,11 @@ from googleapiclient.http import MediaIoBaseDownload
 import io
 import os
 
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+credentials_path = os.path.join(BASE_DIR, 'main/static/credentials.json')
+
+
 class GoogleDriveStorage:
     # Define access scope - 'drive.file' allows access only to files created by the app
     SCOPES = ['https://www.googleapis.com/auth/drive.file']
@@ -18,7 +23,7 @@ class GoogleDriveStorage:
 
 
     ##################                        so it is just authentication                         ####################
-    def __init__(self, credentials_path='static/credentials.json', token_path='token.json'):
+    def __init__(self, credentials_path=credentials_path, token_path='token.json'):
         """Initialize Drive service with credentials"""
         self.credentials_path = credentials_path
         self.token_path = token_path

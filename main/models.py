@@ -78,7 +78,7 @@ class ProfilePhoto(models.Model):
         related_name='photos'
     )
 
-    image = DrivePhotoField(
+    drive_file_id = DrivePhotoField(
         null=True,
         help_text="Айді для фото яке зберігається на гугл диску"
     )

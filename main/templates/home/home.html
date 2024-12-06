@@ -14,7 +14,7 @@
             {%for profile, photos in posts.items %}
                 {%for userPhoto in photos%}
                     <div class="post">
-                        <img src="{{userPhoto.image.url}}"class="post-image">
+                        <img src="{{ userPhoto.get_image_url }}"class="post-image">
                         <div class="post-description">
                             <p class="post-username">@{{profile.user.username}}</p>
                             <p class="post-text">{{userPhoto.caption}}</p>

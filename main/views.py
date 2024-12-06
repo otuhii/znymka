@@ -177,8 +177,9 @@ def uploadPhoto(request, username):
     if request.method == "POST":
         new_photo = ProfilePhoto.objects.create(
             profile=request.user.profile,
-            image=request.FILES['photo'],
+            local_image=request.FILES['photo'],
             photo_type=request.POST.get('photo_type', 'GALLERY'),
             caption=request.POST.get('caption', '')
         )
+        new_photo.save()
         return redirect(reverse('viewProfile', kwargs={'username': request.user.username}))
