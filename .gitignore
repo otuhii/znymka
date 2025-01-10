@@ -1,4 +1,5 @@
 libs
+venv
 test.py
 todo.txt
 main/__pycache__
